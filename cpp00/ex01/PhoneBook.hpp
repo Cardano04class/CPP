@@ -2,7 +2,7 @@
 # define PHONEBOOK_HPP
 #include "Contact.hpp"
 
-class Phonebook{
+class PhoneBook{
 private:
     Contact contacts[8];
     int index;
