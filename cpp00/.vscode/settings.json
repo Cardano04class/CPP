@@ -7,6 +7,8 @@
     },
     "files.associations": {
         "istream": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iomanip": "cpp",
+        "string": "cpp"
     }
 }

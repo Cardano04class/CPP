@@ -26,8 +26,8 @@ void PhoneBook::searchContacts() const
                 << "|" << std::endl;
     for(int i = 0; i < count; i++)
         contacts[i].displayContacts(i);
+
     std::cout << "Enter Index: ";
-    
     std::string input;
     getline(std::cin, input);
     if (input.length() == 1 && isdigit(input[0]))
