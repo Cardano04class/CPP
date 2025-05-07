@@ -4,7 +4,7 @@
 int main()
 {
     randomChump("Mohamed");
-    Zombie *amir = newZombie("amir");
-    std::cout << "after the function >> " << std::endl;
+    Zombie *amir = newZombie("Amir");
+    delete amir;
     return (0);
 }

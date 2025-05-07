@@ -1,12 +1,11 @@
 #include "Zombie.hpp"
 
-Zombie::Zombie(std::string _name){
-    std::cout << "Calling named constractor" << std::endl;
-    name = _name;
+Zombie::Zombie(std::string newName){
+    name = newName;
 }
 
 Zombie::~Zombie() {
-    std::cout << "Calling the destractor" << std::endl;
+    std::cout << "Calling the destructor of " << name << std::endl;
 }
 
 void Zombie::announce( void ) {
