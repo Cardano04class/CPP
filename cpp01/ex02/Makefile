@@ -1,9 +1,5 @@
-NAME = Brainz
-SRC = main.cpp \
-	  newZombie.cpp \
-	  randomChump.cpp \
-	  Zombie.cpp
-
+NAME = hiBrain
+SRC = main.cpp 
 OBJ = $(SRC:.cpp=.o)
 CXX = c++
 CXFLAGS = -Wall -Wextra -Werror -std=c++98

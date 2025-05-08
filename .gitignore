@@ -1,2 +1,3 @@
-./cpp00/.vscode
+.vscode
 *.o
+.DS_Store
