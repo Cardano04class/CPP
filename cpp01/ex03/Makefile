@@ -1,0 +1,20 @@
+NAME = weapons
+SRC = main.cpp HumanA.cpp HumanB.cpp Weapon.cpp
+OBJ = $(SRC:.cpp=.o)
+CXX = c++
+CXFLAGS = -Wall -Wextra -Werror -std=c++98
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CXX) $(CXFLAGS) -o $(NAME) $(OBJ)
+
+clean:
+	rm -f $(OBJ)
+
+fclean: clean	
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
