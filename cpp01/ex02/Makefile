@@ -1,7 +1,7 @@
 NAME = hiBrain
 SRC = main.cpp 
 OBJ = $(SRC:.cpp=.o)
-CXX = c++
+CXX = c++ $(CXFLAGS)
 CXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 all: $(NAME)
