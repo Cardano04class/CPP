@@ -35,3 +35,25 @@ Fixed::~Fixed()
 {
     std::cout << "Destructor called" << std::endl;    
 }
+Fixed::Fixed (const int rawInt)
+{
+    fixedPointValue = rawInt << fractionalBits;
+}
+
+Fixed::Fixed (const float rawFloat)
+{
+    fixedPointValue = roundf(rawFloat *(1 << fractionalBits));
+}
+
+float Fixed::toFloat(void) const{
+    float floatValue;
+
+    floatValue = fixedPointValue / float(1 << fractionalBits);
+    return floatValue;
+}
+
+int Fixed::toInt(void) const{
+    int intValue;
+
+    intValue = fixedPointValue >> fractionalBits;
+}

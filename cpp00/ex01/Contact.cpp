@@ -5,7 +5,7 @@
 
 int all_printable(std::string str)
 {
-    for (int i = 0; i < str.length(); i++)
+    for (int i = 0; i < (int)str.length(); i++)
     {
         if (!isprint(str[i]))
             return 0;
@@ -15,7 +15,7 @@ int all_printable(std::string str)
 
 int all_digits(std::string str)
 {
-    for (int i = 0; i < str.length(); i++)
+    for (int i = 0; i < (int)str.length(); i++)
     {
         if (!isdigit(str[i]))
             return 0;
@@ -25,7 +25,7 @@ int all_digits(std::string str)
 
 std::string checklength (std::string str)
 {
-    for (int i = 0; i < str.length(); i++)
+    for (int i = 0; i < (int)str.length(); i++)
     {
         if (i > 9)
         {
