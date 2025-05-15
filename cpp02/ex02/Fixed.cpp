@@ -115,25 +115,17 @@ Fixed Fixed::operator-(const Fixed& other) const
     return result;
 }
 
-Fixed Fixed::operator*(const Fixed& other) const {
+Fixed Fixed::operator*(Fixed const & rhs) const {
     Fixed result;
-    long long product = static_cast<long long>(this->fixedPointValue) * other.fixedPointValue;
-    result.fixedPointValue = static_cast<int>(product >> fractionalBits);
+
+    result.setRawBits((this->fixedPointValue * rhs.getRawBits()) >> this->fractionalBits);
     return result;
 }
 
-Fixed Fixed::operator/(const Fixed& other) const {
+Fixed Fixed::operator/(Fixed const & rhs) const {
     Fixed result;
 
-    if (other.getRawBits() == 0) {
-        std::cerr << "Error: Division by zero." << std::endl;
-        return result;
-    }
-
-    long long numerator = (static_cast<long long>(this->fixedPointValue) << fractionalBits);
-    long long quotient = numerator / other.fixedPointValue;
-    result.setRawBits(static_cast<int>(quotient));
-
+    result.setRawBits((this->fixedPointValue << this->fractionalBits) / rhs.getRawBits());
     return result;
 }
 
