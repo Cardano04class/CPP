@@ -31,7 +31,6 @@ ScavTrap &ScavTrap::operator=(const ScavTrap &rhs)
     return *this;
 }
 
-
 ScavTrap::~ScavTrap()
 {
     std::cout << "ScavTrap destructor for " << name << std::endl;
