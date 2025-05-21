@@ -20,6 +20,5 @@ int main() {
     std::cout << "\n=== Deleting Animals ===" << std::endl;
     for (int i = 0; i < size; ++i)
         delete animals[i];
-
     return 0;
 }

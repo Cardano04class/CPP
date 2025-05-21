@@ -21,6 +21,6 @@ int main()
     std::cout << "Cat type: " << cat.getType() << std::endl;
 
     std::cout << "\n=== Cleaning up ===" << std::endl;
-
+    
     return 0;
 }
