@@ -1,5 +1,5 @@
-NAME = Bureaucrat
-SRC = main.cpp Bureaucrat.cpp
+NAME = Form
+SRC = main.cpp Bureaucrat.cpp Form.cpp
 OBJ = $(SRC:.cpp=.o)
 CXX = c++ $(CXFLAGS)
 CXFLAGS = -Wall -Wextra -Werror -std=c++98
