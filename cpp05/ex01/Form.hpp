@@ -5,7 +5,7 @@
 # include <string>
 # include <exception>
 # include <iostream>
-
+class Bureaucrat;
 class Form
 {
     private: 
