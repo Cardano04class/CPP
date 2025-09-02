@@ -34,21 +34,20 @@ int main() {
     std::cout << topSecret << std::endl;
 
     std::cout << "\n=== Test: signing with too low grade ===" << std::endl;
-    bob.signForm(contract);   // should fail
+    bob.signForm(contract);  
 
     std::cout << "\n=== Test: signing with exact grade ===" << std::endl;
-    charlie.signForm(contract); // should succeed (grade == required)
+    charlie.signForm(contract);
 
     std::cout << "\n=== Test: signing already signed form ===" << std::endl;
-    charlie.signForm(contract); // should fail, already signed
+    charlie.signForm(contract);
 
     std::cout << "\n=== Test: high-rank bureaucrat ===" << std::endl;
-    alice.signForm(nda);      // should succeed
-    alice.signForm(nda);      // already signed → should show already signed (via exception or custom message)
-    charlie.signForm(topSecret); // grade too low → should fail
+    alice.signForm(nda);      
+    alice.signForm(nda);      
+    charlie.signForm(topSecret);
     Bureaucrat chief("Chief", 1);
-    chief.signForm(topSecret); // should succeed
-
+    chief.signForm(topSecret);
     std::cout << "\n--- Final state of forms ---" << std::endl;
     std::cout << contract << std::endl;
     std::cout << nda << std::endl;
