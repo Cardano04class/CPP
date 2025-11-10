@@ -1,5 +1,5 @@
 NAME = AForm
-SRC = main.cpp Bureaucrat.cpp  AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp
+SRC = main.cpp Bureaucrat.cpp  AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
 OBJ = $(SRC:.cpp=.o)
 CXX = c++ $(CXFLAGS)
 CXFLAGS = -Wall -Wextra -Werror -std=c++98
