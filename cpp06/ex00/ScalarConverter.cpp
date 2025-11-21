@@ -4,9 +4,9 @@ ScalarConverter::ScalarConverter(){}
 
 ScalarConverter::~ScalarConverter(){}
 
-ScalarConverter::ScalarConverter(const ScalarConverter &other){}
+ScalarConverter::ScalarConverter(const ScalarConverter &){}
 
-ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &)
 {
     return *this;
 }
@@ -85,7 +85,7 @@ static void convertFromChar(char c)
 
 static void convertFromInt(int i)
 {
-    if (i >= 32 && i <= 126)
+    if (isprint(i))
         std::cout << "char: '" << static_cast<char>(i) << "'" << std::endl;
     else    
         std::cout << "char: Non displayable" << std::endl;
@@ -98,12 +98,12 @@ static void convertFromFloat(float f)
 {
     if (isnan(f) || isinf(f))
     {
-        std::cout << "char: Impossible" << std::endl;
-        std::cout << "int: Impossible" << std::endl;
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
     }
     else
     {
-        if (f >= 32 && f <= 126)
+        if (isprint(f))
             std::cout << "char: '" << static_cast<char>(f) << "'" << std::endl;
         else
             std::cout << "char: Non displayable" << std::endl;
@@ -127,17 +127,17 @@ static void convertFromDouble(double d)
 {
     if (isnan(d) || isinf(d))
     {
-        std::cout << "char: Impossible" << std::endl;
-        std::cout << "int: Impossible" << std::endl;
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
     }
     else
     {
-        if (d >= 32 && d <= 126)
+        if (isprint(d))
             std::cout << "char: '" << static_cast<char>(d) << "'" << std::endl;
         else
             std::cout << "char: Non displayable" << std::endl;
         if (d > std::numeric_limits<int>::max()  || d < std::numeric_limits<int>::min())
-            std::cout << "int: Impossible" << std::endl;
+            std::cout << "int: impossible" << std::endl;
         else
             std::cout << "int: " << static_cast<int>(d) << std::endl;
     }
@@ -154,8 +154,8 @@ static void convertFromDouble(double d)
 
 static void convertFromPseudoLiteral(const std::string &literal)
 {
-    std::cout << "char: Impossible" << std::endl;
-    std::cout << "int: Impossible" << std::endl;
+    std::cout << "char: impossible" << std::endl;
+    std::cout << "int: impossible" << std::endl;
 
     if (literal == "nan" || literal == "nanf")
     {
@@ -176,5 +176,22 @@ static void convertFromPseudoLiteral(const std::string &literal)
 
 void ScalarConverter::convert(const std::string &literal)
 {
+    if (isPseudoLiteral(literal))
+    {
+        convertFromPseudoLiteral(literal);
+        return;
+    }
 
+    if(isChar(literal))
+        convertFromChar(literal[0]);
+    else if (isInt(literal))
+        convertFromInt(std::atoi(literal.c_str()));
+    else if (isFloat(literal))
+        convertFromFloat(std::atof(literal.c_str()));
+    else if (isDouble(literal))
+        convertFromDouble(std::atof(literal.c_str()));
+    else
+    {
+        std::cerr << "Invalid Literal" << std::endl;
+    }
 }
