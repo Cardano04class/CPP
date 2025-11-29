@@ -6,5 +6,4 @@ struct Data
 {
     int value;
     std::string name;
-
 };
