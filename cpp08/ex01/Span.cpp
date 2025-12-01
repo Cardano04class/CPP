@@ -2,9 +2,9 @@
 
 Span::Span() : _maxSize(0){}
 
-Span::Span(unsigned int N) : _maxSize(N) {}
+Span::Span(unsigned int N) : _maxSize(N){}
 
-Span::Span(const Span &other) : _maxSize(other._maxSize), _numbers(other._numbers){}
+Span::Span(const Span &src) : _maxSize(src._maxSize), _data(src._data){}
 
 Span::~Span(){}
 
@@ -13,54 +13,42 @@ Span &Span::operator=(const Span &rhs)
     if(this != &rhs)
     {
         _maxSize = rhs._maxSize;
-        _numbers = rhs._numbers;
+        _data = rhs._data;
     }
     return *this;
 }
 
 void Span::addNumber(int number)
 {
-    if(_numbers.size() >= _maxSize)
-        throw std::runtime_error("Span Full");
-    _numbers.push_back(number);
+    if (_data.size() >= _maxSize)
+        throw std::runtime_error("Reached Max Size");
+    _data.push_back(number);
 }
 
-unsigned int Span::shortestSpan() const
+int Span::longestSpan() const
 {
-    if (_numbers.size() <= 1)
-        throw std::runtime_error("No enough numbers to find a span");
+    if (_data.size() <= 1)
+        throw std::runtime_error("No enough Numbers");
+    std::vector<int>::const_iterator minIt = std::min_element(_data.begin(), _data.end());
+    std::vector<int>::const_iterator maxIt = std::max_element(_data.begin(), _data.end());
 
-    std::vector<int> sorted = _numbers;
+    return *maxIt-*minIt;
+}
+
+int Span::shortestSpan() const
+{
+    if (_data.size() <= 1)
+        throw std::runtime_error("No enough Numbers");
+    std::vector<int>sorted = _data;
     std::sort(sorted.begin(), sorted.end());
 
-    unsigned int minSpan = std::numeric_limits<unsigned int>::max();
+    int shortest = std::numeric_limits<int>::max();
+
     for(size_t i = 1; i < sorted.size(); ++i)
     {
-        unsigned int span = static_cast<unsigned int>(sorted[i]- sorted[i -1]);
-        if(span < minSpan)
-            minSpan = span;
-
+        int span = sorted[i] - sorted[i-1];
+        if(span < shortest)
+            shortest = span;
     }
-    return minSpan;
-}
-
-unsigned int Span::longestSpan() const
-{
-    if(_numbers.size() <= 1)
-        throw std::runtime_error("No enough numbers to find a span");
-    
-    std::vector<int>::const_iterator minIt = std::min_element(_numbers.begin(), _numbers.end());
-    std::vector<int>::const_iterator maxIt = std::max_element(_numbers.begin(), _numbers.end());
-
-    return static_cast<unsigned int> (*maxIt-*minIt);
-}
-
-unsigned int Span::getMaxSize() const
-{
-    return _maxSize;
-}
-
-const std::vector<int> &Span::getNumbers() const
-{
-    return _numbers;
+    return shortest;
 }
