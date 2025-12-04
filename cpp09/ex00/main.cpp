@@ -1,0 +1,24 @@
+#include "BitcoinExchange.hpp"
+#include <iostream>
+
+int main(int ac, char **av)
+{
+    if (ac != 2)
+    {
+        std::cerr << "Usage: ./btc input.txt" << std::endl;
+        return 1;
+    }
+    try
+    {
+        BitcoinExchange btc;
+
+        btc.loadDatabase("data.csv");
+        btc.processInputFile(av[1]);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "ERR: " << e.what() << std::endl;
+        return 1;
+    }
+    return 0;
+}
