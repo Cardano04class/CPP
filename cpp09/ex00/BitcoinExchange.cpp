@@ -119,24 +119,22 @@ bool BitcoinExchange::isValidDate(const std::string &date) const
 
     if (!is_digits(s_year) || !is_digits(s_month) || !is_digits(s_day))
         return false;
-    
+
     int year, month, day;
-    try
-    {
-        year = std::stoi(s_year);
-        month = std::stoi(s_month);
-        day = std::stoi(s_day);
-    }
-    catch(const std::exception& e)
-    {
+
+    std::istringstream y(s_year);
+    std::istringstream m(s_month);
+    std::istringstream d(s_day);
+
+    if (!(y >> year) || !(m >> month) || !(d >> day))
         return false;
-    }
 
     if (year < 0 || month < 1 || month > 12 || day < 1 || day > daysInMonth(year, month))
         return false;
-    
+
     return true;
 }
+
 
 bool BitcoinExchange::isValidValue(const std::string &string_value) const
 {
@@ -164,5 +162,114 @@ bool BitcoinExchange::isValidValue(const std::string &string_value) const
 
 void BitcoinExchange::loadDatabase(const std::string &filename)
 {
+    std::ifstream file(filename.c_str());
 
+    if(!file.is_open())
+    {
+        std::cerr << "Error: could not open database file: " << filename << std::endl;
+        return;
+    }
+
+    std::string line;
+    if(!getline(file, line))
+        return;
+
+    while(std::getline(file, line))
+    {
+        if(line.empty())
+            continue;
+        
+        std::string dateStr;
+        std::string rateStr;
+
+        if (!split_once(line, ',', dateStr, rateStr))
+            continue;
+        if(!isValidDate(dateStr))
+            continue;
+
+        double rate;
+        if(!parseDoubleSafely(rateStr, rate))
+            continue;
+        if(rate <= 0)
+            continue;
+        _exchangeRates[dateStr] = rate;   
+    }  
+}
+
+void BitcoinExchange::processInputFile(const std::string &filename) const
+{
+    std::ifstream file(filename.c_str());
+
+    if(!file.is_open())
+    {
+        std::cerr << "Error: could not open file." << std::endl;
+        return;
+    }
+
+    std::string line;
+
+    if(getline(file, line))
+    {
+        std::string trimmed = trim(line);
+        if(trimmed != "date | value")
+        {
+            file.clear();
+            file.seekg(0, std::ios::beg);
+        }
+    }
+
+    while(getline(file, line))
+    {
+        if(line.empty())
+            continue;
+        
+        std::string dateStr;
+        std::string valueStr;
+
+        if(!split_once(line, '|', dateStr, valueStr))
+        {
+            std::cerr << "Error: bad input => " << line << std::endl;
+            continue;
+        }
+
+        if(!isValidDate(dateStr))
+            continue;
+        
+        double valueParsed;
+        if (!parseDoubleSafely(valueStr, valueParsed))
+        {
+            std::cerr << "Error: bad input => " << valueStr << std::endl;
+            continue;
+        }
+
+        if (!isValidValue(valueStr))
+            continue;
+
+        double rate = getExchangeRate(dateStr);
+        double result = valueParsed * rate;
+
+        std::cout << dateStr << " => " << valueStr
+                  << " = " << std::fixed << std::setprecision(2)
+                  << result << std::endl;
+
+    }
+    file.close();
+}
+
+double BitcoinExchange::getExchangeRate(const std::string &date) const
+{
+    std::map<std::string, double>::const_iterator it = _exchangeRates.lower_bound(date); 
+
+    if (it != _exchangeRates.end() && it->first == date)
+        return it->second;
+
+    if (it == _exchangeRates.begin())
+    {
+        std::cerr << "Error: no data found for date " << date 
+                  << " or any previous date." << std::endl;
+        return 0;
+    }
+
+    --it;
+    return it->second;
 }
