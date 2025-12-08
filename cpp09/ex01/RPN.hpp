@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <cmath>
+#include <cstdlib>
 #include <iomanip>
 
 class RPN
